@@ -349,24 +349,28 @@ const TECHS = ["Juan Hernandez - Técnico Todista", "Angel Yataco - Técnico Ele
 const RUBROS = ["ELECTRICO","SANITARIO","CERRAJERIA"];
 async function cargarExcelSharePoint() {
 
-const urlExcel = "./CONSOLIDADO DASHBOARD VILLA.xlsx";
+const urlExcel = "./CONSOLIDADO DASHBOARD VILLA.xlsx?v=" + Date.now();
 
-const response = await fetch(urlExcel);
+const response = await fetch(urlExcel, { cache: "no-store" });
 
 console.log("STATUS:", response.status);
+if(!response.ok){ throw new Error("No se pudo cargar el Excel. Estado: " + response.status); }
 
 const arrayBuffer = await response.arrayBuffer();
 
-const workbook = XLSX.read(arrayBuffer, { type: "array" });
+const workbook = XLSX.read(arrayBuffer, { type: "array", cellDates: true });
 
 const hoja = workbook.Sheets[workbook.SheetNames[0]];
 
 const rows = XLSX.utils.sheet_to_json(hoja, { defval: "" });
 
+console.log("TOTAL FILAS EXCEL:", rows.length);
+
 allData = rows.map(normalizeRecord).filter(r =>
     r["Observación"] || r["Pabellón / Área"]
 );
 
+console.log("TOTAL REGISTROS FILTRADOS:", allData.length);
 console.log(allData);
 
 renderPills();
@@ -417,6 +421,9 @@ function normalizeRecord(r){
 }
 function formatExcelDate(v){
   if(!v) return "";
+  if(v instanceof Date && !isNaN(v)) {
+    return String(v.getDate()).padStart(2,'0')+"/"+String(v.getMonth()+1).padStart(2,'0')+"/"+v.getFullYear();
+  }
   if(typeof v === "number") {
     const d = XLSX.SSF.parse_date_code(v);
     if(d) return String(d.d).padStart(2,'0')+"/"+String(d.m).padStart(2,'0')+"/"+d.y;
@@ -665,7 +672,6 @@ function openDetailModal(kpi){
       <td>${r.ID||""}</td><td>${r.Fecha||""}</td><td>${r.Hora||""}</td><td>${r.Sede||""}</td>
       <td>${r["Pabellón / Área"]||""}</td><td>${r.Ambiente||""}</td>
       <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
-      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
       <td>${r["Observación"]||""}</td><td>${r.Prioridad||""}</td>
       <td><span class="badge ${statusClass(r.Estado)}">${r.Estado||""}</span></td>
       <td><span class="badge spec-${spec}">${r["Técnico Asignado"]||""}</span></td>
@@ -752,7 +758,6 @@ function render(){
     return `<tr>
       <td>${r.ID||""}</td><td>${r.Fecha||""}</td><td>${r.Hora||""}</td><td>${r.Sede||""}</td>
       <td>${r["Pabellón / Área"]||""}</td><td>${r.Ambiente||""}</td>
-      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
       <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
       <td>${r["Observación"]||""}</td><td>${r.Prioridad||""}</td>
       <td><span class="badge ${statusClass(r.Estado)}">${r.Estado||""}</span></td>
