@@ -6,245 +6,215 @@
 <title>DASHBOARD GERENCIAL | CAMPUS VILLA</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
-:root {
-  --vino:#7A0026;
-  --vino2:#5A0018;
+:root{
+  --vino:#5A0018;
+  --vino2:#7A0026;
+  --vino3:#8C0030;
+  --dorado:#B8904D;
   --negro:#111827;
   --gris:#F3F4F6;
+  --panel:#FFFFFF;
   --texto:#1F2937;
-  --turquesa:#2E7D7A;
-  --naranja:#B7791F;
-  --azul:#2563A6;
-  --verde:#2F855A;
+  --muted:#6B7280;
+  --verde:#2E7D7A;
   --rojo:#B91C1C;
-  --amarillo:#D69E2E;
+  --ambar:#B7791F;
+  --azul:#2563A6;
+  --morado:#6D28D9;
 }
 *{box-sizing:border-box}
-body {
+body{
   margin:0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background:#F3F4F6;
-  color:#fff;
+  font-family:"Segoe UI",Arial,sans-serif;
+  background:linear-gradient(180deg,#F3F4F6 0%,#ECEFF3 100%);
+  color:var(--texto);
 }
-.login {
-  position:fixed; inset:0; z-index:100;
+.login{
+  position:fixed; inset:0; z-index:1000;
   display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg,#111827,#243447);
+  background:radial-gradient(circle at top left,#8C0030 0%,#5A0018 35%,#111827 100%);
 }
-.login-card {
-  width:min(410px,90vw); background:#fff; color:var(--texto);
-  padding:34px; border-radius:22px; box-shadow:0 20px 60px rgba(0,0,0,.45);
+.login-card{
+  width:min(420px,90vw);
+  background:#fff; color:var(--texto);
+  padding:34px; border-radius:22px;
+  box-shadow:0 25px 80px rgba(0,0,0,.45);
   text-align:center;
 }
-.login-card h2{margin:0;color:var(--vino);font-size:1.35rem}
-.login-card p{font-size:.82rem;color:#555;margin-bottom:20px}
-.login-card input{width:100%;padding:13px;border:1px solid #ccc;border-radius:12px;margin-bottom:12px;font-size:1rem}
-.login-card button{width:100%;padding:13px;border:0;border-radius:12px;background:var(--vino);color:#fff;font-weight:800;cursor:pointer}
-.header {
-  padding:22px 28px;
-  background:linear-gradient(90deg,#111827,#243447,#2F4858);
-  border-bottom:4px solid #8A6F3D;
-  display:flex; justify-content:space-between; gap:20px; align-items:center; flex-wrap:wrap;
+.login-card h2{margin:0;color:var(--vino);font-size:1.45rem}
+.login-card p{font-size:.88rem;color:#555;margin-bottom:20px}
+.login-card input{width:100%;padding:14px;border:1px solid #D1D5DB;border-radius:12px;margin-bottom:12px;font-size:1rem}
+.login-card button{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(90deg,var(--vino),var(--vino2));color:#fff;font-weight:900;cursor:pointer}
+.header{
+  padding:24px 32px;
+  background:linear-gradient(90deg,#3A0010 0%,var(--vino) 42%,var(--vino2) 100%);
+  color:#fff;
+  border-bottom:4px solid var(--dorado);
+  display:flex; justify-content:space-between; gap:24px; align-items:center; flex-wrap:wrap;
+  box-shadow:0 8px 25px rgba(17,24,39,.18);
 }
-.header h1{margin:0;font-size:1.5rem;letter-spacing:.4px;font-weight:900}
-.header .sub{font-size:.88rem;opacity:.86;margin-top:4px}
-.header .brand{text-align:right;font-size:.72rem;color:#ddd}
-.wrap{padding:18px 24px 30px}
-.panel {
-  background:rgba(255,255,255,.96);
+.header h1{margin:0;font-size:1.7rem;letter-spacing:.6px;font-weight:950}
+.header .sub{font-size:.92rem;opacity:.9;margin-top:4px}
+.header .brand{text-align:right;font-size:.76rem;color:#F3F4F6;line-height:1.35}
+.wrap{padding:20px 26px 34px}
+.panel{
+  background:rgba(255,255,255,.98);
   color:var(--texto);
   border-radius:18px;
   padding:16px;
-  box-shadow:0 8px 24px rgba(17,24,39,.12);
+  box-shadow:0 8px 24px rgba(17,24,39,.10);
   margin-bottom:16px;
+  border:1px solid rgba(17,24,39,.06);
 }
+.executive-summary{
+  display:grid;
+  grid-template-columns:1.4fr repeat(3,minmax(160px,1fr));
+  gap:14px;
+  align-items:stretch;
+}
+.summary-card{
+  border-radius:18px;
+  padding:16px;
+  background:linear-gradient(135deg,#fff,#F8FAFC);
+  border:1px solid #E5E7EB;
+}
+.summary-card.primary{
+  background:linear-gradient(135deg,#111827,#374151);
+  color:#fff;
+}
+.summary-card .label{font-size:.75rem;text-transform:uppercase;font-weight:900;color:var(--muted)}
+.summary-card.primary .label{color:#D1D5DB}
+.summary-card .value{font-size:2rem;font-weight:950;margin-top:5px}
+.summary-card .hint{font-size:.75rem;color:#6B7280;margin-top:3px}
+.summary-card.primary .hint{color:#E5E7EB}
+.progress{
+  height:12px;background:#E5E7EB;border-radius:999px;overflow:hidden;margin-top:10px;
+}
+.progress > div{height:100%;background:linear-gradient(90deg,var(--verde),#10B981);border-radius:999px;width:0%}
 .topbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.filebox{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-input[type=file]{padding:10px;background:#fff;border:1px dashed var(--vino);border-radius:10px;color:#333}
-.btn {
-  padding:14px 22px; border-radius:999px; border:2px solid #ddd; background:#fff;
-  color:#333; cursor:pointer; font-weight:900; font-size:.92rem; letter-spacing:.3px;
-  transition:.15s;
-}
-.btn:hover{transform:translateY(-1px);box-shadow:0 5px 12px rgba(0,0,0,.12)}
-.btn.active{background:var(--vino);color:#fff;border-color:var(--vino)}
-.btn.multi-active{box-shadow:0 0 0 3px rgba(57,214,198,.35),0 6px 14px rgba(0,0,0,.18);transform:translateY(-1px)}
+.search{padding:11px;border:1px solid #D1D5DB;border-radius:12px;min-width:280px;outline:none}
+select{padding:11px;border:1px solid #D1D5DB;border-radius:12px;background:#fff;outline:none}
+.section-title{font-size:.82rem;text-transform:uppercase;color:var(--vino);margin:0 0 9px;letter-spacing:.5px;font-weight:950}
 .ctrl-note{font-size:.72rem;color:#666;margin:-4px 0 10px}
 .ctrl-note b{color:var(--vino)}
-
-.btn.rubro-general{border-color:var(--vino);font-weight:900}
-.btn.rubro-general.active{background:var(--vino);color:#fff}
-.btn.rubro-electrico{border-color:var(--naranja);font-weight:900}
-.btn.rubro-electrico.active{background:var(--naranja);color:#111}
-.btn.rubro-sanitario{border-color:var(--azul);font-weight:900}
-.btn.rubro-sanitario.active{background:var(--azul);color:#fff}
-.btn.rubro-cerrajeria{border-color:#7F8C8D;font-weight:900}
-.btn.rubro-cerrajeria.active{background:#7F8C8D;color:#fff}
-.btn.rubro-eventos{border-color:#8E44AD;font-weight:900}
-.btn.rubro-eventos.active{background:#8E44AD;color:#fff}
-.rubro-electrico-badge{background:#FDEBD0;color:#9C4E00}
-.rubro-sanitario-badge{background:#D6EAF8;color:#0B3C75}
-.rubro-cerrajeria-badge{background:#EAECEE;color:#424949}
-.rubro-eventos-badge{background:#E8DAEF;color:#5B2C6F}
-.rubro-general-badge{background:#F8D7DA;color:#7A0026}
-
-.btn.rubro-general{
-background:linear-gradient(135deg,#5A0018,#7A0026);
-color:#fff;
-box-shadow:0 6px 14px rgba(17,24,39,.22)
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.btn{
+  padding:12px 18px;border-radius:999px;border:1.8px solid #D1D5DB;background:#fff;color:#111827;
+  cursor:pointer;font-weight:900;font-size:.86rem;letter-spacing:.2px;transition:.15s;
 }
-.btn.rubro-electrico{
-background:linear-gradient(135deg,#6B7280,#4B5563);
-color:#111;
-box-shadow:0 6px 14px rgba(75,85,99,.22)
-}
-.btn.rubro-sanitario{
-background:linear-gradient(135deg,#3B82A0,#2563A6);
-color:#fff;
-box-shadow:0 6px 14px rgba(37,99,166,.22)
-}
-.btn.rubro-cerrajeria{
-background:linear-gradient(135deg,#757F9A,#D7DDE8);
-color:#111;
-box-shadow:0 6px 14px rgba(127,140,141,.35)
-}
-.btn.rubro-eventos{
-background:linear-gradient(135deg,#4B5563,#374151);
-color:#fff;
-box-shadow:0 6px 14px rgba(142,45,226,.35)
-}
-.btn.rubro-general.active,
-.btn.rubro-electrico.active,
-.btn.rubro-sanitario.active,
-.btn.rubro-cerrajeria.active,
-.btn.rubro-eventos.active{
-transform:translateY(-2px) scale(1.03);
-box-shadow:0 0 0 3px rgba(46,125,122,.30),0 10px 18px rgba(17,24,39,.18)
-}
-.dropdown-panel{
-display:none;
-margin-top:14px;
-padding:16px;
-border-radius:16px;
-background:linear-gradient(145deg,#ffffff,#f3f3f3);
-border:1px solid #ececec;
-box-shadow:0 8px 18px rgba(0,0,0,.08)
-}
-.dropdown-panel.open{display:block}
-.dropdown-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:12px
-}
-.dropdown-card{
-padding:14px;
-border-radius:16px;
-color:#fff;
-font-weight:800;
-min-height:110px;
-position:relative;
-overflow:hidden;
-cursor:pointer;
-transition:.18s
-}
-.dropdown-card:hover{
-transform:translateY(-2px) scale(1.01)
-}
-.dropdown-card small{
-display:block;
-margin-top:8px;
-font-size:.76rem;
-opacity:.92;
-font-weight:700
-}
-.dropdown-card .qty{
-font-size:2rem;
-font-weight:900
-}
-.card-electrico{background:linear-gradient(135deg,#6B7280,#4B5563)}
-.card-sanitario{background:linear-gradient(135deg,#3B82A0,#2563A6)}
-.card-cerrajeria{background:linear-gradient(135deg,#757F9A,#4B5563)}
-.card-eventos{background:linear-gradient(135deg,#4B5563,#374151)}
-.card-general{background:linear-gradient(135deg,#243447,#111827)}
-
-
-.btn.tech-electricista{border-color:var(--naranja);}
-.btn.tech-electricista.active{background:var(--naranja);color:#111}
-.btn.tech-sanitario{border-color:var(--azul);}
-.btn.tech-sanitario.active{background:var(--azul);color:#fff}
-.btn.tech-todista{border-color:var(--verde);}
-.btn.tech-todista.active{background:var(--verde);color:#fff}
-.controls h3{font-size:.82rem;text-transform:uppercase;color:var(--vino);margin:0 0 8px;letter-spacing:.5px}
-.pills{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
-.grid-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-.kpi {
-  border-radius:18px; padding:16px; min-height:96px;
-  cursor:pointer; transition:.18s;
-  color:#fff; position:relative; overflow:hidden;
-  box-shadow:0 7px 18px rgba(0,0,0,.16);
-  border:0;
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 14px rgba(0,0,0,.12)}
+.btn.active,.btn.multi-active{background:var(--vino);color:#fff;border-color:var(--vino);box-shadow:0 0 0 3px rgba(90,0,24,.18)}
+.btn.rubro-general{background:linear-gradient(135deg,#5A0018,#7A0026);color:#fff}
+.btn.rubro-electrico{border-color:#6B7280;background:#F3F4F6}
+.btn.rubro-sanitario{border-color:#2563A6;background:#EFF6FF}
+.btn.rubro-cerrajeria{border-color:#6B7280;background:#F9FAFB}
+.btn.rubro-infraestructura{border-color:#B8904D;background:#FFFBEB}
+.btn.rubro-limpieza{border-color:#2E7D7A;background:#ECFDF5}
+.btn.rubro-otros{border-color:#6B7280;background:#F9FAFB}
+.grid-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.kpi{
+  border-radius:18px;padding:16px;min-height:94px;cursor:pointer;transition:.18s;color:#fff;position:relative;overflow:hidden;
+  box-shadow:0 8px 18px rgba(0,0,0,.14);border:0;
 }
 .kpi:after{
-  content:"Ver detalle";
-  position:absolute;right:12px;bottom:8px;
-  font-size:.62rem;font-weight:800;opacity:.8;
-  background:rgba(255,255,255,.18);padding:3px 8px;border-radius:999px;
+  content:"Ver detalle";position:absolute;right:12px;bottom:9px;font-size:.62rem;font-weight:900;opacity:.85;background:rgba(255,255,255,.18);padding:4px 9px;border-radius:999px;
 }
-.kpi:hover{transform:translateY(-3px);box-shadow:0 11px 24px rgba(0,0,0,.24)}
-.kpi.active{box-shadow:0 0 0 4px rgba(57,214,198,.42),0 11px 24px rgba(0,0,0,.25);transform:translateY(-3px)}
-.kpi .num{font-size:2.15rem;font-weight:900;color:#fff;text-shadow:0 2px 5px rgba(0,0,0,.25)}
-.kpi .lbl{font-size:.74rem;color:rgba(255,255,255,.92);font-weight:800;text-transform:uppercase;line-height:1.2}
+.kpi:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,0,0,.22)}
+.kpi.active{box-shadow:0 0 0 4px rgba(184,144,77,.35),0 12px 26px rgba(0,0,0,.22)}
+.kpi .num{font-size:2rem;font-weight:950;color:#fff}
+.kpi .lbl{font-size:.72rem;color:rgba(255,255,255,.92);font-weight:900;text-transform:uppercase;line-height:1.2}
 .kpi.total{background:linear-gradient(135deg,#111827,#374151)}
 .kpi.pendiente{background:linear-gradient(135deg,#B91C1C,#7F1D1D)}
-.kpi.proceso{background:linear-gradient(135deg,#D69E2E,#975A16);color:#211}
-.kpi.proceso .num,.kpi.proceso .lbl{color:#241b00;text-shadow:none}
+.kpi.proceso{background:linear-gradient(135deg,#D69E2E,#975A16)}
 .kpi.atendido{background:linear-gradient(135deg,#2E7D7A,#285E61)}
-.kpi.critica{background:linear-gradient(135deg,#243447,#111827)}
+.kpi.critica{background:linear-gradient(135deg,#5A0018,#111827)}
+.kpi.cumplimiento{background:linear-gradient(135deg,#047857,#065F46)}
+.kpi.villa{background:linear-gradient(135deg,#2563A6,#1E3A8A)}
+.kpi.asignar{background:linear-gradient(135deg,#6B7280,#374151)}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(280px,1fr));gap:14px}
+.card{
+  border-radius:18px;padding:16px;background:#fff;border:1px solid #E5E7EB;
+  box-shadow:0 6px 18px rgba(17,24,39,.08);
+}
+.card-title{font-weight:950;color:var(--vino);margin-bottom:10px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.chart-box{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;min-height:180px}
+.donut{
+  width:150px;height:150px;border-radius:50%;
+  background:conic-gradient(#E5E7EB 0deg 360deg);
+  position:relative;box-shadow:inset 0 0 0 1px #E5E7EB;
+}
+.donut:after{
+  content:"";position:absolute;inset:34px;background:#fff;border-radius:50%;box-shadow:0 0 0 1px #E5E7EB;
+}
+.donut-center{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2;
+  font-weight:950;color:var(--vino);font-size:1.35rem;pointer-events:none;
+}
+.legend{display:flex;flex-direction:column;gap:7px;max-height:190px;overflow:auto;padding-right:4px}
+.legend-item{
+  display:grid;grid-template-columns:12px 1fr auto;gap:8px;align-items:center;
+  padding:6px 7px;border-radius:10px;cursor:pointer;font-size:.78rem;
+}
+.legend-item:hover{background:#F3F4F6}
+.dot{width:11px;height:11px;border-radius:99px}
+.legend-label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.legend-count{font-weight:950;color:#111827}
+.rank-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.barrow{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:.8rem;cursor:pointer;padding:4px;border-radius:8px}
+.barrow:hover{background:#F3F4F6}
+.barlabel{width:125px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barbg{flex:1;background:#E5E7EB;height:9px;border-radius:99px;overflow:hidden}
+.bar{height:9px;background:var(--vino);border-radius:99px}
+.count{width:32px;text-align:right;font-weight:950}
+.table-wrap{overflow:auto;max-height:58vh;border-radius:14px;border:1px solid #E5E7EB}
+table{border-collapse:collapse;width:100%;font-size:.76rem;background:#fff}
+th{position:sticky;top:0;background:#111827;color:#fff;z-index:2;text-align:left;padding:10px;white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid #eee;vertical-align:top}
+tr:hover{background:#FAFAFA}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:.68rem;font-weight:900;white-space:nowrap}
+.status-pendiente{background:#FADBD8;color:#922B21}
+.status-proceso,.status-programado,.status-parcial{background:#FCF3CF;color:#7D6608}
+.status-atendido,.status-cerrado{background:#D1FAE5;color:#065F46}
+.status-informativo{background:#E5E7EB;color:#374151}
+.rubro-electrico-badge{background:#FDEBD0;color:#9C4E00}
+.rubro-sanitario-badge{background:#DBEAFE;color:#1E3A8A}
+.rubro-cerrajeria-badge{background:#E5E7EB;color:#374151}
+.rubro-infraestructura-badge{background:#FEF3C7;color:#92400E}
+.rubro-limpieza-badge{background:#D1FAE5;color:#065F46}
+.rubro-general-badge{background:#F8D7DA;color:#7A0026}
+.spec-electricista{background:#FDEBD0;color:#9C4E00}
+.spec-sanitario{background:#DBEAFE;color:#1E3A8A}
+.spec-todista{background:#D1FAE5;color:#065F46}
+.spec-otro{background:#E5E7EB;color:#374151}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;z-index:9999;padding:18px}
 .modal-overlay.open{display:flex}
-.modal-box{width:min(1050px,96vw);max-height:86vh;overflow:auto;background:#fff;color:var(--texto);border-radius:20px;box-shadow:0 25px 70px rgba(0,0,0,.42)}
-.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(90deg,var(--negro),var(--vino));color:#fff;position:sticky;top:0;z-index:2}
+.modal-box{width:min(1120px,96vw);max-height:86vh;overflow:auto;background:#fff;color:var(--texto);border-radius:20px;box-shadow:0 25px 70px rgba(0,0,0,.42)}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;background:linear-gradient(90deg,#111827,var(--vino));color:#fff;position:sticky;top:0;z-index:2}
 .modal-head h2{font-size:1.05rem;margin:0}
 .modal-close{border:0;background:rgba(255,255,255,.18);color:#fff;border-radius:999px;padding:7px 12px;font-weight:900;cursor:pointer}
 .modal-body{padding:16px}
-.modal-summary{font-weight:800;color:var(--vino);margin-bottom:10px}
+.modal-summary{font-weight:900;color:var(--vino);margin-bottom:10px}
 .modal-table-wrap{overflow:auto;border:1px solid #eee;border-radius:14px}
-.modal-table th{background:var(--vino);color:#fff}
-.modal-table td{font-size:.76rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-.card {
-  border-radius:16px;padding:14px;background:#fff;border:1px solid #eee;
-  box-shadow:0 3px 12px rgba(0,0,0,.06);
-}
-.card-title{font-weight:900;color:var(--vino);margin-bottom:8px}
-.barrow{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:.82rem}
-.barlabel{width:110px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.barbg{flex:1;background:#eee;height:9px;border-radius:99px;overflow:hidden}
-.bar{height:9px;background:var(--vino);border-radius:99px}
-.count{width:24px;text-align:right;font-weight:800}
-.table-wrap{overflow:auto;max-height:58vh;border-radius:14px;border:1px solid #e5e5e5}
-table{border-collapse:collapse;width:100%;font-size:.78rem;background:#fff}
-th{position:sticky;top:0;background:var(--negro);color:#fff;z-index:2;text-align:left;padding:10px;white-space:nowrap}
-td{padding:9px 10px;border-bottom:1px solid #eee;vertical-align:top}
-tr:hover{background:#faf7f8}
-.badge{display:inline-block;padding:4px 9px;border-radius:999px;font-size:.7rem;font-weight:900;white-space:nowrap}
-.status-pendiente{background:#FADBD8;color:#922B21}
-.status-proceso,.status-programado,.status-parcial{background:#FCF3CF;color:#7D6608}
-.status-atendido,.status-cerrado{background:var(--turquesa);color:#003A38}
-.status-informativo{background:#EAECEE;color:#566573}
-.spec-electricista{background:#FDEBD0;color:#9C4E00}
-.spec-sanitario{background:#D6EAF8;color:#0B3C75}
-.spec-todista{background:#D5F5E3;color:#145A32}
 .footer-note{font-size:.75rem;color:#666;margin-top:8px}
-.search{padding:10px;border:1px solid #ddd;border-radius:12px;min-width:250px}
-select{padding:10px;border:1px solid #ddd;border-radius:12px;background:#fff}
+.error-box{display:none;background:#FEF2F2;color:#991B1B;border:1px solid #FECACA;border-radius:12px;padding:12px;margin-top:10px;font-weight:800}
+@media(max-width:980px){
+  .executive-summary{grid-template-columns:1fr 1fr}
+  .cards{grid-template-columns:1fr}
+  .chart-box{grid-template-columns:1fr;justify-items:center}
+}
+@media(max-width:640px){
+  .executive-summary{grid-template-columns:1fr}
+  .header h1{font-size:1.25rem}
+  .wrap{padding:14px}
+  .search{min-width:100%;width:100%}
+}
 </style>
 </head>
 <body>
 <div class="login" id="login">
   <div class="login-card">
     <h2>CAMPUS VILLA</h2>
-    <p>Centro de Control Operativo</p>
+    <p>Dashboard Gerencial de Mantenimiento</p>
     <input id="pwd" type="password" placeholder="Contraseña" onkeydown="if(event.key==='Enter')checkPwd()">
     <button onclick="checkPwd()">Ingresar</button>
     <div id="err" style="color:#C0392B;font-size:.78rem;margin-top:10px"></div>
@@ -253,17 +223,44 @@ select{padding:10px;border:1px solid #ddd;border-radius:12px;background:#fff}
 
 <header class="header">
   <div>
-    <h1>CONTROL OPERATIVO Y MANTENIMIENTO CAMPUS VILLA</h1>
-    <div class="sub">Seguimiento diario de observaciones técnicos y estado operativo.</div>
+    <h1>DASHBOARD GERENCIAL DE MANTENIMIENTO</h1>
+    <div class="sub">Campus Villa | Mantenimiento y Servicios Generales</div>
   </div>
-  <div class="brand">Campus Villa<br>Dashboard Gerencial V11</div>
+  <div class="brand">
+    Universidad Científica del Sur<br>
+    <span id="headerUpdate">Actualizando información...</span>
+  </div>
 </header>
 
 <div class="wrap">
-  <section class="panel" style="border-left:7px solid var(--turquesa);">
-    <strong style="color:var(--vino)">MODO VISOR TÉCNICOS</strong>
-    <div class="footer-note">Acceso de consulta. No permite cargar Excel ni actualizar información.</div>
+  <section class="panel">
+    <div class="executive-summary">
+      <div class="summary-card primary">
+        <div class="label">Resumen Ejecutivo</div>
+        <div class="value" id="sumTotal">0</div>
+        <div class="hint">Incidencias cargadas desde Excel</div>
+        <div class="progress"><div id="sumProgress"></div></div>
+        <div class="hint" id="sumProgressText">0% de cumplimiento</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Atendidas / Cerradas</div>
+        <div class="value" id="sumAtendidos">0</div>
+        <div class="hint">Registros cerrados operativamente</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Pendientes</div>
+        <div class="value" id="sumPendientes">0</div>
+        <div class="hint">Backlog operativo actual</div>
+      </div>
+      <div class="summary-card">
+        <div class="label">Alta / Crítica</div>
+        <div class="value" id="sumCriticas">0</div>
+        <div class="hint">Prioridad de atención</div>
+      </div>
+    </div>
+    <div class="error-box" id="loadError"></div>
   </section>
+
   <section class="panel">
     <div class="topbar">
       <input class="search" id="search" placeholder="Buscar observación, pabellón, ambiente..." oninput="render()">
@@ -275,38 +272,65 @@ select{padding:10px;border:1px solid #ddd;border-radius:12px;background:#fff}
         <option value="">Todas las sedes</option><option>Villa 1</option><option>Villa 2</option>
       </select>
     </div>
-    <div class="footer-note"><b>Panel Ejecutivo:</b> Visualización gerencial de incidencias, mantenimiento y servicios generales.</div>
+    <div class="footer-note"><b>Panel Ejecutivo:</b> Visualización gerencial de incidencias, mantenimiento y servicios generales. Fuente: Excel en GitHub.</div>
   </section>
 
   <section class="panel controls">
-    <h3>Filtros por Rubro</h3>
+    <h3 class="section-title">Filtros por Rubro</h3>
     <div class="ctrl-note"><b>CTRL + CLICK:</b> permite seleccionar varios rubros a la vez.</div>
-    <div class="pills" id="rubroPills"></div><div class="dropdown-panel open" id="rubroDropdown"></div>
-    <h3>Filtros por Técnico</h3>
+    <div class="pills" id="rubroPills"></div>
+
+    <h3 class="section-title">Filtros por Técnico</h3>
     <div class="ctrl-note"><b>CTRL + CLICK:</b> permite seleccionar varios técnicos a la vez.</div>
     <div class="pills" id="techPills"></div>
-    <h3>Filtros por Fecha</h3>
-    <div class="ctrl-note"><b>CTRL + CLICK:</b> permite seleccionar varias fechas a la vez.</div>
+
+    <h3 class="section-title">Filtros por Fecha</h3>
+    <div class="ctrl-note">Vista compacta por fecha. Selecciona uno o varios días.</div>
     <div class="pills" id="dayPills"></div>
   </section>
 
   <section class="panel">
-    <div class="ctrl-note"><b>CTRL + CLICK:</b> permite seleccionar varios KPI a la vez.</div>
     <div class="grid-kpis" id="kpis"></div>
   </section>
 
   <section class="panel">
     <div class="cards">
-      <div class="card"><div class="card-title">Incidencias por técnico</div><div id="byTech"></div></div>
-      <div class="card"><div class="card-title">Incidencias por rubro</div><div id="byRubro"></div></div>
-      <div class="card"><div class="card-title">Incidencias por sede</div><div id="bySede"></div></div>
+      <div class="card">
+        <div class="card-title">🍩 Incidencias por Técnico <small>click en leyenda</small></div>
+        <div class="chart-box">
+          <div class="donut" id="donutTech"><div class="donut-center" id="centerTech">0</div></div>
+          <div class="legend" id="legendTech"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🍩 Incidencias por Rubro <small>click en leyenda</small></div>
+        <div class="chart-box">
+          <div class="donut" id="donutRubro"><div class="donut-center" id="centerRubro">0</div></div>
+          <div class="legend" id="legendRubro"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">🍩 Incidencias por Sede <small>click en leyenda</small></div>
+        <div class="chart-box">
+          <div class="donut" id="donutSede"><div class="donut-center" id="centerSede">0</div></div>
+          <div class="legend" id="legendSede"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="rank-grid">
+      <div class="card"><div class="card-title">🏆 Top Pabellones / Áreas</div><div id="topAreas"></div></div>
+      <div class="card"><div class="card-title">🏆 Top Ambientes</div><div id="topAmbientes"></div></div>
+      <div class="card"><div class="card-title">🏆 Top Fechas con incidencias</div><div id="topFechas"></div></div>
     </div>
   </section>
 
   <section class="panel">
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
       <strong style="color:var(--vino)">Detalle de observaciones / mantenimientos</strong>
-      <span id="totalRows" style="font-weight:800;color:#555"></span>
+      <span id="totalRows" style="font-weight:900;color:#555"></span>
     </div>
     <div class="table-wrap">
       <table>
@@ -344,52 +368,53 @@ select{padding:10px;border:1px solid #ddd;border-radius:12px;background:#fff}
 </div>
 
 <script>
-const INITIAL_DATA = [{"ID": 1, "Fecha": "25/05/2026", "Hora": "08:23 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón I", "Ambiente": "SSHH Damas", "Tipo": "Limpieza", "Observación": "No hay papel toalla.", "Prioridad": "Media", "Estado": "Atendido", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Se verificó abastecimiento de papel toalla."}, {"ID": 2, "Fecha": "25/05/2026", "Hora": "08:33 AM", "Sede": "Villa 1", "Pabellón / Área": "Laboratorio A101", "Ambiente": "Anexo laboratorio", "Tipo": "Infraestructura", "Observación": "Tapar hueco de alarma trasladada a garita.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 3, "Fecha": "25/05/2026", "Hora": "09:00 AM", "Sede": "Villa 1", "Pabellón / Área": "Lab A-109 / Química 1", "Ambiente": "Villa 1", "Tipo": "Infraestructura", "Observación": "Banca por reparar.", "Prioridad": "Media", "Estado": "Atendido", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Se procedió al cambio de banca."}, {"ID": 4, "Fecha": "25/05/2026", "Hora": "09:37 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón I", "Ambiente": "SSHH Varones – 2do piso", "Tipo": "Sanitario", "Observación": "Continúa inoperativo.", "Prioridad": "Alta", "Estado": "Atendido", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Solucionado."}, {"ID": 5, "Fecha": "25/05/2026", "Hora": "10:02 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón M", "Ambiente": "Espalda del pabellón / parqueo", "Tipo": "Infraestructura", "Observación": "Personal de EDIFICARIS realiza fogata para derretir alquitrán. Cuenta con extintor.", "Prioridad": "Alta", "Estado": "En proceso", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 6, "Fecha": "25/05/2026", "Hora": "10:18 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón I", "Ambiente": "SSHH Varones – 2do piso", "Tipo": "Sanitario", "Observación": "Melamina/tabla salida de mayólica en separación de urinario.", "Prioridad": "Media", "Estado": "Atendido", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Solucionado."}, {"ID": 7, "Fecha": "25/05/2026", "Hora": "10:20 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón K", "Ambiente": "Aula 102", "Tipo": "Electricidad", "Observación": "Aire acondicionado no funciona.", "Prioridad": "Alta", "Estado": "Pendiente", "Técnico Asignado": "Angel Yataco - Técnico Electricista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 8, "Fecha": "25/05/2026", "Hora": "10:25 AM", "Sede": "Villa 2", "Pabellón / Área": "S/R", "Ambiente": "Brazo hidráulico", "Tipo": "Infraestructura", "Observación": "Pendiente revisión de brazo hidráulico.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 9, "Fecha": "25/05/2026", "Hora": "10:25 AM", "Sede": "Villa 2", "Pabellón / Área": "S/R", "Ambiente": "Tacho", "Tipo": "Limpieza", "Observación": "Coordinación para traslado de tacho luego del refrigerio.", "Prioridad": "Baja", "Estado": "Programado", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 10, "Fecha": "25/05/2026", "Hora": "10:29 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón I", "Ambiente": "SSHH Varones – 2do piso", "Tipo": "Infraestructura", "Observación": "Chapa operativa; pendiente entrega de llave por SSGG.", "Prioridad": "Media", "Estado": "Parcial", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": "Pendiente entrega de llave."}, {"ID": 11, "Fecha": "25/05/2026", "Hora": "10:44 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón L", "Ambiente": "SSHH Varones", "Tipo": "Sanitario", "Observación": "Dispensador de jabón malogrado.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 12, "Fecha": "25/05/2026", "Hora": "10:52 AM", "Sede": "Villa 1", "Pabellón / Área": "Laboratorio A107", "Ambiente": "Tecnología Alimentaria", "Tipo": "Informativo", "Observación": "Ambiente disponible con clases programadas.", "Prioridad": "Baja", "Estado": "Informativo", "Técnico Asignado": "Daniel Magallanes - Técnico Electricista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 13, "Fecha": "25/05/2026", "Hora": "11:06 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón O", "Ambiente": "Hall 3er piso", "Tipo": "Electricidad", "Observación": "Iluminaria malograda.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Jose Rodas - Técnico Electricista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 14, "Fecha": "25/05/2026", "Hora": "11:29 AM", "Sede": "Villa 2", "Pabellón / Área": "K306", "Ambiente": "Estudio de TV / almacén", "Tipo": "Electricidad", "Observación": "Foco malogrado y enchufe salido.", "Prioridad": "Alta", "Estado": "Programado", "Técnico Asignado": "Luis Matos - Técnico Electricista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 15, "Fecha": "25/05/2026", "Hora": "11:39 AM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón P", "Ambiente": "SSHH Varones – 3er piso", "Tipo": "Sanitario", "Observación": "Tapa de inodoro salida.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 16, "Fecha": "25/05/2026", "Hora": "12:06 PM", "Sede": "Villa 1", "Pabellón / Área": "Laboratorio A107", "Ambiente": "Tecnología Alimentaria", "Tipo": "Infraestructura", "Observación": "Atención realizada.", "Prioridad": "Media", "Estado": "Atendido", "Técnico Asignado": "Daniel Magallanes - Técnico Electricista", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Atendido."}, {"ID": 17, "Fecha": "25/05/2026", "Hora": "01:45 PM", "Sede": "Villa 2", "Pabellón / Área": "K312", "Ambiente": "Sede Villa", "Tipo": "Infraestructura", "Observación": "Problema de goteo en techo.", "Prioridad": "Alta", "Estado": "Pendiente", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 18, "Fecha": "25/05/2026", "Hora": "02:10 PM", "Sede": "Villa 1", "Pabellón / Área": "Lab A-109 / Química 1", "Ambiente": "Villa 1", "Tipo": "Infraestructura", "Observación": "Cambio de banca realizado.", "Prioridad": "Media", "Estado": "Atendido", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Cerrado por conformidad."}, {"ID": 19, "Fecha": "25/05/2026", "Hora": "02:52 PM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón O", "Ambiente": "Aula O205", "Tipo": "Infraestructura", "Observación": "Placa metálica con riesgo de caída continúa pendiente.", "Prioridad": "Alta", "Estado": "Pendiente", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 20, "Fecha": "25/05/2026", "Hora": "02:53 PM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón O", "Ambiente": "SSHH 2do piso", "Tipo": "Sanitario", "Observación": "Baño atorado y olor a orina.", "Prioridad": "Alta", "Estado": "Pendiente", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 21, "Fecha": "25/05/2026", "Hora": "03:08 PM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón O", "Ambiente": "Hall 3er piso", "Tipo": "Electricidad", "Observación": "Luz parpadeando.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Jose Rodas - Técnico Electricista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 22, "Fecha": "25/05/2026", "Hora": "04:41 PM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón I", "Ambiente": "Pasadizo – 2do piso", "Tipo": "Electricidad", "Observación": "Luces del pasadizo no prenden.", "Prioridad": "Alta", "Estado": "Atendido", "Técnico Asignado": "Luis Matos - Técnico Electricista", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Encienden según timer."}, {"ID": 23, "Fecha": "25/05/2026", "Hora": "S/R", "Sede": "Villa 2", "Pabellón / Área": "Pabellón L", "Ambiente": "SSHH Varones 400", "Tipo": "Sanitario", "Observación": "Dispensador de jabón falla y derrame.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 24, "Fecha": "25/05/2026", "Hora": "S/R", "Sede": "Villa 2", "Pabellón / Área": "Pabellón O", "Ambiente": "SSHH Varones – Piso 1", "Tipo": "Sanitario", "Observación": "Urinario rebalsando.", "Prioridad": "Alta", "Estado": "Pendiente", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 25, "Fecha": "25/05/2026", "Hora": "S/R", "Sede": "Villa 2", "Pabellón / Área": "Pabellón O", "Ambiente": "SSHH Varones – Piso 3", "Tipo": "Sanitario", "Observación": "Separadora de urinario floja.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 26, "Fecha": "25/05/2026", "Hora": "S/R", "Sede": "Villa 2", "Pabellón / Área": "P.K", "Ambiente": "SSHH Damas – Piso 1", "Tipo": "Infraestructura", "Observación": "Manija de puerta se traba.", "Prioridad": "Media", "Estado": "Pendiente", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 27, "Fecha": "25/05/2026", "Hora": "S/R", "Sede": "Villa 2", "Pabellón / Área": "Pabellón O", "Ambiente": "SSHH Varones – Piso 1", "Tipo": "Sanitario", "Observación": "Fuga de agua en inodoro.", "Prioridad": "Alta", "Estado": "Pendiente", "Técnico Asignado": "Jorge Rivas - Técnico Sanitario", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 28, "Fecha": "25/05/2026", "Hora": "S/R", "Sede": "Villa 2", "Pabellón / Área": "P.K", "Ambiente": "Áreas comunes", "Tipo": "Limpieza", "Observación": "Uso de barredora en áreas comunes.", "Prioridad": "Baja", "Estado": "Informativo", "Técnico Asignado": "Juan Hernandez - Técnico Todista", "Fecha Cierre": "", "Comentario Técnico": ""}, {"ID": 29, "Fecha": "25/05/2026", "Hora": "05:30 PM", "Sede": "Villa 2", "Pabellón / Área": "Pabellón I", "Ambiente": "Pasadizo – 2do piso", "Tipo": "Electricidad", "Observación": "Luces encienden según timer.", "Prioridad": "Media", "Estado": "Atendido", "Técnico Asignado": "Luis Matos - Técnico Electricista", "Fecha Cierre": "25/05/2026", "Comentario Técnico": "Solucionado."}];
 const TECHS = ["Juan Hernandez - Técnico Todista", "Angel Yataco - Técnico Electricista", "Jose Rodas - Técnico Electricista", "Daniel Magallanes - Técnico Electricista", "Luis Matos - Técnico Electricista"];
-const RUBROS = ["ELECTRICO","SANITARIO","CERRAJERIA","GENERAL"];
-async function cargarExcelSharePoint() {
-
-const urlExcel = "./CONSOLIDADO DASHBOARD VILLA.xlsx";
-
-const response = await fetch(urlExcel);
-
-console.log("STATUS:", response.status);
-
-const arrayBuffer = await response.arrayBuffer();
-
-const workbook = XLSX.read(arrayBuffer, { type: "array" });
-
-const hoja = workbook.Sheets[workbook.SheetNames[0]];
-
-const rows = XLSX.utils.sheet_to_json(hoja, { defval: "" });
-
-console.log("TOTAL FILAS EXCEL:", rows.length);
-
-allData = rows.map(normalizeRecord).filter(r =>
-    r["Observación"] || r["Pabellón / Área"]
-);
-
-console.log("TOTAL REGISTROS FILTRADOS:", allData.length);
-console.log(allData);
-
-renderPills();
-renderRubroDropdown();
-render();
-
-}
-
+const RUBROS_BASE = ["ELECTRICO","SANITARIO","CERRAJERIA","INFRAESTRUCTURA","LIMPIEZA"];
+const CHART_COLORS = ["#5A0018","#7A0026","#B8904D","#2563A6","#2E7D7A","#B7791F","#6D28D9","#374151","#B91C1C","#64748B"];
 let allData = [];
-
-cargarExcelSharePoint();
 let selectedTechs = new Set();
 let selectedDays = new Set();
 let selectedKpis = new Set();
 let selectedRubros = new Set();
 
+function esc(v){
+  return String(v ?? "").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function noAccents(v){
+  return String(v ?? "").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+}
+function titleCaseSimple(s){
+  return String(s||"").toLowerCase().replace(/\b\w/g, c=>c.toUpperCase());
+}
 function checkPwd(){
   const p=document.getElementById('pwd').value;
-  if(p==="UCSUR2026I") document.getElementById('login').style.display='none';
+  if(p==="Villa2026@" || p==="UCSUR2026I") document.getElementById('login').style.display='none';
   else document.getElementById('err').textContent="Contraseña incorrecta";
+}
+
+async function cargarExcelSharePoint(){
+  try{
+    const urlExcel = "./CONSOLIDADO DASHBOARD VILLA.xlsx?v=" + Date.now();
+    const response = await fetch(urlExcel, { cache: "no-store" });
+    console.log("STATUS:", response.status);
+    if(!response.ok) throw new Error("No se pudo cargar el Excel. Estado: " + response.status);
+    const arrayBuffer = await response.arrayBuffer();
+    const workbook = XLSX.read(arrayBuffer, { type: "array", cellDates: true });
+    const hoja = workbook.Sheets[workbook.SheetNames[0]];
+    const rows = XLSX.utils.sheet_to_json(hoja, { defval: "" });
+    allData = rows.map(normalizeRecord).filter(r => r["Observación"] || r["Pabellón / Área"]);
+    console.log("TOTAL REGISTROS FILTRADOS:", allData.length);
+    document.getElementById("headerUpdate").textContent = "Última actualización: " + new Date().toLocaleString("es-PE");
+    renderPills();
+    render();
+  }catch(err){
+    console.error(err);
+    document.getElementById("loadError").style.display = "block";
+    document.getElementById("loadError").textContent = "Error: no se pudo cargar el Excel. Verifica que el archivo CONSOLIDADO DASHBOARD VILLA.xlsx esté en el mismo repositorio.";
+    allData = [];
+    renderPills();
+    render();
+  }
 }
 
 function normalizeRecord(r){
@@ -401,171 +426,133 @@ function normalizeRecord(r){
     }
     return "";
   };
-  return {
+  const rec = {
     "ID": get("ID"),
     "Fecha": formatExcelDate(get("Fecha")),
     "Hora": get("Hora"),
-    "Sede": get("Sede"),
+    "Sede": normalizeSede(get("Sede")),
     "Pabellón / Área": get("Pabellón / Área","Pabellón","Pabellon","Pabellón / Lab"),
     "Ambiente": get("Ambiente","Ubicación / Equipo","Ubicacion / Equipo"),
-    "Rubro": get("Rubro","RUBRO"),
+    "Rubro": "",
     "Tipo": get("Tipo"),
     "Observación": get("Observación","Observacion"),
-    "Prioridad": get("Prioridad"),
-    "Estado": get("Estado"),
-    "Técnico Asignado": get("Técnico Asignado","Tecnico Asignado","Técnico","Tecnico"),
+    "Prioridad": normalizePrioridad(get("Prioridad")),
+    "Estado": normalizeEstado(get("Estado")),
+    "Técnico Asignado": normalizeTech(get("Técnico Asignado","Tecnico Asignado","Técnico","Tecnico")),
     "Fecha Cierre": formatExcelDate(get("Fecha Cierre")),
     "Comentario Técnico": get("Comentario Técnico","Comentario Tecnico","Comentario")
   };
+  rec["Rubro"] = normalizeRubro(get("Rubro","RUBRO"), rec);
+  return rec;
 }
 function formatExcelDate(v){
   if(!v) return "";
-  if(typeof v === "number") {
+  if(v instanceof Date && !isNaN(v)) return String(v.getDate()).padStart(2,'0')+"/"+String(v.getMonth()+1).padStart(2,'0')+"/"+v.getFullYear();
+  if(typeof v === "number"){
     const d = XLSX.SSF.parse_date_code(v);
     if(d) return String(d.d).padStart(2,'0')+"/"+String(d.m).padStart(2,'0')+"/"+d.y;
   }
   return String(v);
 }
-function loadExcel(evt){
-  const file = evt.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e){
-    const data = new Uint8Array(e.target.result);
-    const wb = XLSX.read(data, {type:'array'});
-    const sheetName = wb.SheetNames.includes("REGISTRO_DIARIO") ? "REGISTRO_DIARIO" : wb.SheetNames[0];
-    const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], {defval:""});
-    allData = rows.map(normalizeRecord).filter(r => r["Observación"] || r["Pabellón / Área"]);
-    selectedTechs.clear(); selectedDays.clear(); selectedKpis.clear(); selectedRubros.clear();
-    renderPills(); renderRubroDropdown(); render();
-  };
-  reader.readAsArrayBuffer(file);
+function normalizeSede(v){
+  const t=noAccents(v);
+  if(t.includes("villa 1") || t==="v1" || t.includes("villa1")) return "Villa 1";
+  if(t.includes("villa 2") || t==="v2" || t.includes("villa2")) return "Villa 2";
+  return String(v||"S/R").trim() || "S/R";
 }
-function resetData(){
-  allData=[...INITIAL_DATA]; selectedTechs.clear(); selectedDays.clear(); selectedKpis.clear(); selectedRubros.clear();
-  document.getElementById('excelFile').value="";
-  renderPills(); renderRubroDropdown(); render();
+function normalizeEstado(v){
+  const t=noAccents(v);
+  if(t.includes("pend")) return "Pendiente";
+  if(t.includes("proceso")) return "En proceso";
+  if(t.includes("program")) return "Programado";
+  if(t.includes("parcial")) return "Parcial";
+  if(t.includes("atendid")) return "Atendido";
+  if(t.includes("cerrad")) return "Cerrado";
+  if(t.includes("inform")) return "Informativo";
+  return String(v||"Informativo").trim() || "Informativo";
+}
+function normalizePrioridad(v){
+  const t=noAccents(v);
+  if(t.includes("critic")) return "Crítica";
+  if(t.includes("alta")) return "Alta";
+  if(t.includes("media")) return "Media";
+  if(t.includes("baja")) return "Baja";
+  return String(v||"Media").trim() || "Media";
+}
+function normalizeTech(v){
+  const raw = String(v||"").trim();
+  const t=noAccents(raw);
+  if(!raw || raw==="-" || t==="s/r" || t==="sr" || t.includes("sin asign")) return "Sin asignar";
+  if(t.includes("juan")) return "Juan Hernandez - Técnico Todista";
+  if(t.includes("angel")) return "Angel Yataco - Técnico Electricista";
+  if(t.includes("jose") && t.includes("rodas")) return "Jose Rodas - Técnico Electricista";
+  if(t.includes("daniel")) return "Daniel Magallanes - Técnico Electricista";
+  if(t.includes("luis") && t.includes("matos")) return "Luis Matos - Técnico Electricista";
+  if(t.includes("jorge") && t.includes("rivas")) return "Jorge Rivas - Técnico Sanitario";
+  return raw;
+}
+function normalizeRubro(explicit, r){
+  const e = noAccents(explicit).toUpperCase();
+  if(e){
+    if(e.includes("ELECT")) return "ELECTRICO";
+    if(e.includes("SANIT")) return "SANITARIO";
+    if(e.includes("CERRAJ")) return "CERRAJERIA";
+    if(e.includes("INFRA")) return "INFRAESTRUCTURA";
+    if(e.includes("LIMPIE")) return "LIMPIEZA";
+    if(e.includes("MOBILI")) return "MOBILIARIO";
+    if(e.includes("SEGUR")) return "SEGURIDAD";
+    if(e.includes("FUMIG")) return "FUMIGACIÓN";
+    if(e.includes("GASF")) return "GASFITERÍA";
+    return e;
+  }
+  const txt = noAccents(`${r.Tipo||""} ${r.Observación||""} ${r.Ambiente||""}`);
+  if(txt.includes("urinario") || txt.includes("inodoro") || txt.includes("sshh") || txt.includes("bano") || txt.includes("jabon") || txt.includes("agua") || txt.includes("sanitario") || txt.includes("fluxometro")) return "SANITARIO";
+  if(txt.includes("luz") || txt.includes("ilumin") || txt.includes("foco") || txt.includes("enchufe") || txt.includes("aire acondicionado") || txt.includes("electric")) return "ELECTRICO";
+  if(txt.includes("chapa") || txt.includes("manija") || txt.includes("puerta") || txt.includes("llave") || txt.includes("cerradura")) return "CERRAJERIA";
+  if(txt.includes("limpieza") || txt.includes("residuo") || txt.includes("basura")) return "LIMPIEZA";
+  return "GENERAL";
 }
 function getSpec(tech){
-  const t=(tech||"").toLowerCase();
+  const t=noAccents(tech);
   if(t.includes("electricista")) return "electricista";
   if(t.includes("sanitario")) return "sanitario";
   if(t.includes("todista")) return "todista";
   return "otro";
 }
 function statusClass(s){
-  s=(s||"").toLowerCase();
-  if(s.includes("pendiente")) return "status-pendiente";
-  if(s.includes("proceso")) return "status-proceso";
-  if(s.includes("programado")) return "status-programado";
-  if(s.includes("parcial")) return "status-parcial";
-  if(s.includes("atendido")) return "status-atendido";
-  if(s.includes("cerrado")) return "status-cerrado";
+  const t=noAccents(s);
+  if(t.includes("pendiente")) return "status-pendiente";
+  if(t.includes("proceso")) return "status-proceso";
+  if(t.includes("programado")) return "status-programado";
+  if(t.includes("parcial")) return "status-parcial";
+  if(t.includes("atendido")) return "status-atendido";
+  if(t.includes("cerrado")) return "status-cerrado";
   return "status-informativo";
 }
-
-function inferRubro(r){
-  const explicit = (r["Rubro"] || r["RUBRO"] || "").toString().trim().toUpperCase();
-  if(explicit) return explicit;
-  const txt = `${r.Tipo||""} ${r.Observación||""} ${r.Ambiente||""}`.toLowerCase();
-  if(txt.includes("urinario") || txt.includes("inodoro") || txt.includes("sshh") || txt.includes("baño") || txt.includes("jabón") || txt.includes("agua") || txt.includes("sanitario")) return "SANITARIO";
-  if(txt.includes("luz") || txt.includes("ilumin") || txt.includes("foco") || txt.includes("enchufe") || txt.includes("aire acondicionado") || txt.includes("eléctr") || txt.includes("electric")) return "ELECTRICO";
-  if(txt.includes("chapa") || txt.includes("manija") || txt.includes("puerta") || txt.includes("llave") || txt.includes("cerradura")) return "CERRAJERIA";
-  if(txt.includes("evento") || txt.includes("auditorio") || txt.includes("actividad") || txt.includes("soporte audiovisual")) return "EVENTOS";
-  return "GENERAL";
-}
-function rubroClass(rubro){
-  const r=(rubro||"GENERAL").toLowerCase();
-  if(r.includes("elect")) return "rubro-electrico-badge";
-  if(r.includes("sanit")) return "rubro-sanitario-badge";
-  if(r.includes("cerraj")) return "rubro-cerrajeria-badge";
-  if(r.includes("evento")) return "rubro-eventos-badge";
+function rubroClass(r){
+  const t=noAccents(r);
+  if(t.includes("elect")) return "rubro-electrico-badge";
+  if(t.includes("sanit")) return "rubro-sanitario-badge";
+  if(t.includes("cerraj")) return "rubro-cerrajeria-badge";
+  if(t.includes("infra")) return "rubro-infraestructura-badge";
+  if(t.includes("limpie")) return "rubro-limpieza-badge";
   return "rubro-general-badge";
 }
-function rubroBtnClass(rubro){
-  const r=(rubro||"GENERAL").toLowerCase();
-  if(r.includes("elect")) return "rubro-electrico";
-  if(r.includes("sanit")) return "rubro-sanitario";
-  if(r.includes("cerraj")) return "rubro-cerrajeria";
-  if(r.includes("evento")) return "rubro-eventos";
-  return "rubro-general";
-}
-
-
-
-function rowsForRubro(rubro){
-  const base = filteredBaseWithoutKpi();
-  if(!rubro || rubro==="GENERAL") return base;
-  return base.filter(r=>inferRubro(r)===rubro);
-}
-function rubroTitle(rubro){
-  return rubro==="GENERAL" ? "RUBRO GENERAL" : "RUBRO " + rubro;
-}
-function openRubroModal(rubro){
-  const rows = rowsForRubro(rubro);
-  document.getElementById("modalTitle").textContent = rubroTitle(rubro);
-  document.getElementById("modalSummary").textContent = `${rows.length} registro(s) encontrados para este rubro según los filtros activos.`;
-  document.getElementById("modalTbody").innerHTML = rows.map(r=>{
-    const spec=getSpec(r["Técnico Asignado"]);
-    return `<tr>
-      <td>${r.ID||""}</td><td>${r.Fecha||""}</td><td>${r.Hora||""}</td><td>${r.Sede||""}</td>
-      <td>${r["Pabellón / Área"]||""}</td><td>${r.Ambiente||""}</td>
-      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
-      <td>${r["Observación"]||""}</td><td>${r.Prioridad||""}</td>
-      <td><span class="badge ${statusClass(r.Estado)}">${r.Estado||""}</span></td>
-      <td><span class="badge spec-${spec}">${r["Técnico Asignado"]||""}</span></td>
-      <td>${r["Comentario Técnico"]||""}</td>
-    </tr>`;
-  }).join("") || `<tr><td colspan="13">Sin registros para mostrar.</td></tr>`;
-  document.getElementById("detailModal").classList.add("open");
-}
-function rubroClickOpen(event, rubro){
-  handleRubroClick(event, rubro==="GENERAL" ? "" : rubro);
-  openRubroModal(rubro);
-}
-
-function renderRubroDropdown(){
-  const rows = filteredBaseWithoutKpi ? filteredBaseWithoutKpi() : allData;
-  const counts = {
-    GENERAL: rows.length,
-    ELECTRICO: rows.filter(r=>inferRubro(r)==="ELECTRICO").length,
-    SANITARIO: rows.filter(r=>inferRubro(r)==="SANITARIO").length,
-    CERRAJERIA: rows.filter(r=>inferRubro(r)==="CERRAJERIA").length
-  };
-
-  document.getElementById('rubroDropdown').innerHTML = `
-  <div class="dropdown-grid">
-    <div class="dropdown-card card-general" onclick="rubroClickOpen(event,'GENERAL')">
-      <div class="qty">${counts.GENERAL}</div>
-      GENERAL
-      <small>Visualiza todas las incidencias registradas.</small>
-    </div>
-
-    <div class="dropdown-card card-electrico" onclick="rubroClickOpen(event,'ELECTRICO')">
-      <div class="qty">${counts.ELECTRICO}</div>
-      ELECTRICO
-      <small>Incidencias eléctricas, iluminación y AA.</small>
-    </div>
-
-    <div class="dropdown-card card-sanitario" onclick="rubroClickOpen(event,'SANITARIO')">
-      <div class="qty">${counts.SANITARIO}</div>
-      SANITARIO
-      <small>SSHH, fugas, urinarios e inodoros.</small>
-    </div>
-
-    <div class="dropdown-card card-cerrajeria" onclick="rubroClickOpen(event,'CERRAJERIA')">
-      <div class="qty">${counts.CERRAJERIA}</div>
-      CERRAJERIA
-      <small>Puertas, chapas, manijas y cerraduras.</small>
-    </div>
-  </div>`;
+function rubroBtnClass(r){
+  const t=noAccents(r);
+  if(t.includes("elect")) return "rubro-electrico";
+  if(t.includes("sanit")) return "rubro-sanitario";
+  if(t.includes("cerraj")) return "rubro-cerrajeria";
+  if(t.includes("infra")) return "rubro-infraestructura";
+  if(t.includes("limpie")) return "rubro-limpieza";
+  return "rubro-otros";
 }
 
 function renderPills(){
   const rubroBox=document.getElementById('rubroPills');
   rubroBox.innerHTML =
-    `<button class="btn rubro-general ${selectedRubros.size===0?"active multi-active":""}" onclick="rubroClickOpen(event,'GENERAL')">GENERAL</button>` +
-    RUBROS.map(r => `<button class="btn ${rubroBtnClass(r)} ${selectedRubros.has(r)?"active multi-active":""}" onclick="rubroClickOpen(event,'${r}')">${r}</button>`).join("");
+    `<button class="btn rubro-general ${selectedRubros.size===0?"active multi-active":""}" onclick="handleRubroClick(event,'')">GENERAL</button>` +
+    RUBROS_BASE.map(r => `<button class="btn ${rubroBtnClass(r)} ${selectedRubros.has(r)?"active multi-active":""}" onclick="handleRubroClick(event,'${r}')">${r}</button>`).join("");
 
   const techBox=document.getElementById('techPills');
   techBox.innerHTML =
@@ -573,81 +560,92 @@ function renderPills(){
     TECHS.map(t => {
       const spec=getSpec(t);
       const active = selectedTechs.has(t);
-      return `<button class="btn tech-${spec} ${active?"active multi-active":""}" onclick="handleTechClick(event, decodeURIComponent('${encodeURIComponent(t)}'))">${t.split(" - ")[0]}</button>`;
+      return `<button class="btn tech-${spec} ${active?"active multi-active":""}" onclick="handleTechClick(event, decodeURIComponent('${encodeURIComponent(t)}'))">${esc(t.split(" - ")[0])}</button>`;
     }).join("");
 
-  const days=[...new Set(allData.map(r=>r.Fecha).filter(Boolean))].sort();
+  const days=[...new Set(allData.map(r=>r.Fecha).filter(Boolean))].sort((a,b)=>dateKey(a)-dateKey(b));
   const dayBox=document.getElementById('dayPills');
   dayBox.innerHTML =
     `<button class="btn ${selectedDays.size===0?"active multi-active":""}" onclick="handleDayClick(event,'')">Todos los días</button>` +
-    days.map(d=>`<button class="btn ${selectedDays.has(d)?"active multi-active":""}" onclick="handleDayClick(event,'${d}')">${d}</button>`).join("");
+    days.map(d=>`<button class="btn ${selectedDays.has(d)?"active multi-active":""}" onclick="handleDayClick(event,'${esc(d)}')">${esc(dayShort(d))}</button>`).join("");
 }
-
-
+function dateKey(d){
+  const m=String(d).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  return m ? Number(m[3]+m[2].padStart(2,'0')+m[1].padStart(2,'0')) : 0;
+}
+function dayShort(d){
+  const m=String(d).match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  return m ? m[1].padStart(2,"0")+"/"+m[2].padStart(2,"0") : d;
+}
 function handleRubroClick(event, rubro){
-  if(!rubro){
-    selectedRubros.clear();
-  } else if(event.ctrlKey || event.metaKey){
-    if(selectedRubros.has(rubro)) selectedRubros.delete(rubro);
-    else selectedRubros.add(rubro);
+  if(!rubro) selectedRubros.clear();
+  else if(event.ctrlKey || event.metaKey){
+    selectedRubros.has(rubro) ? selectedRubros.delete(rubro) : selectedRubros.add(rubro);
   } else {
-    selectedRubros.clear();
-    selectedRubros.add(rubro);
+    selectedRubros.clear(); selectedRubros.add(rubro);
   }
-  renderPills();
-  renderRubroDropdown();
-  render();
+  renderPills(); render();
 }
-
 function handleTechClick(event, tech){
-  if(!tech){
-    selectedTechs.clear();
-  } else if(event.ctrlKey || event.metaKey){
-    if(selectedTechs.has(tech)) selectedTechs.delete(tech);
-    else selectedTechs.add(tech);
+  if(!tech) selectedTechs.clear();
+  else if(event.ctrlKey || event.metaKey){
+    selectedTechs.has(tech) ? selectedTechs.delete(tech) : selectedTechs.add(tech);
   } else {
-    selectedTechs.clear();
-    selectedTechs.add(tech);
+    selectedTechs.clear(); selectedTechs.add(tech);
   }
-  renderPills();
-  renderRubroDropdown();
-  render();
+  renderPills(); render();
 }
-
 function handleDayClick(event, day){
-  if(!day){
-    selectedDays.clear();
-  } else if(event.ctrlKey || event.metaKey){
-    if(selectedDays.has(day)) selectedDays.delete(day);
-    else selectedDays.add(day);
+  if(!day) selectedDays.clear();
+  else if(event.ctrlKey || event.metaKey){
+    selectedDays.has(day) ? selectedDays.delete(day) : selectedDays.add(day);
   } else {
-    selectedDays.clear();
-    selectedDays.add(day);
+    selectedDays.clear(); selectedDays.add(day);
   }
-  renderPills();
-  renderRubroDropdown();
-  render();
+  renderPills(); render();
 }
 
-
-
-function rowsForKpi(kpi){
-  const base = filteredBaseWithoutKpi();
-  if(kpi==="total") return base;
-  if(kpi==="pendientes") return base.filter(r=>r.Estado==="Pendiente");
-  if(kpi==="proceso") return base.filter(r=>["En proceso","Programado","Parcial"].includes(r.Estado));
-  if(kpi==="atendidos") return base.filter(r=>["Atendido","Cerrado"].includes(r.Estado));
-  if(kpi==="criticas") return base.filter(r=>r.Prioridad==="Crítica" || r.Prioridad==="Alta");
-  return base;
-}
 function filteredBaseWithoutKpi(){
   const q=document.getElementById('search').value.toLowerCase();
   const estado=document.getElementById('estadoSelect').value;
   const sede=document.getElementById('sedeSelect').value;
   return allData.filter(r => {
     const hay = Object.values(r).join(" ").toLowerCase().includes(q);
-    return hay && (!estado || r.Estado===estado) && (!sede || r.Sede===sede) && (selectedRubros.size===0 || selectedRubros.has(inferRubro(r))) && (selectedTechs.size===0 || selectedTechs.has(r["Técnico Asignado"])) && (selectedDays.size===0 || selectedDays.has(r.Fecha));
+    return hay && (!estado || r.Estado===estado) && (!sede || r.Sede===sede) &&
+      (selectedRubros.size===0 || selectedRubros.has(r.Rubro)) &&
+      (selectedTechs.size===0 || selectedTechs.has(r["Técnico Asignado"])) &&
+      (selectedDays.size===0 || selectedDays.has(r.Fecha));
   });
+}
+function kpiMatch(r){
+  if(selectedKpis.size===0) return true;
+  let ok=false;
+  selectedKpis.forEach(k=>{
+    if(k==="pendientes" && r.Estado==="Pendiente") ok=true;
+    if(k==="proceso" && ["En proceso","Programado","Parcial"].includes(r.Estado)) ok=true;
+    if(k==="atendidos" && ["Atendido","Cerrado"].includes(r.Estado)) ok=true;
+    if(k==="criticas" && (r.Prioridad==="Crítica" || r.Prioridad==="Alta")) ok=true;
+    if(k==="villa1" && r.Sede==="Villa 1") ok=true;
+    if(k==="villa2" && r.Sede==="Villa 2") ok=true;
+    if(k==="sinasignar" && r["Técnico Asignado"]==="Sin asignar") ok=true;
+    if(k==="total") ok=true;
+  });
+  return ok;
+}
+function filtered(){
+  return filteredBaseWithoutKpi().filter(kpiMatch);
+}
+function rowsForKpi(kpi){
+  const base=filteredBaseWithoutKpi();
+  if(kpi==="total") return base;
+  if(kpi==="pendientes") return base.filter(r=>r.Estado==="Pendiente");
+  if(kpi==="proceso") return base.filter(r=>["En proceso","Programado","Parcial"].includes(r.Estado));
+  if(kpi==="atendidos") return base.filter(r=>["Atendido","Cerrado"].includes(r.Estado));
+  if(kpi==="criticas") return base.filter(r=>r.Prioridad==="Crítica" || r.Prioridad==="Alta");
+  if(kpi==="villa1") return base.filter(r=>r.Sede==="Villa 1");
+  if(kpi==="villa2") return base.filter(r=>r.Sede==="Villa 2");
+  if(kpi==="sinasignar") return base.filter(r=>r["Técnico Asignado"]==="Sin asignar");
+  return base;
 }
 function kpiTitle(kpi){
   return {
@@ -655,84 +653,39 @@ function kpiTitle(kpi){
     pendientes:"PENDIENTES",
     proceso:"EN PROCESO / PROGRAMADO",
     atendidos:"ATENDIDOS / CERRADOS",
-    criticas:"ALTA / CRÍTICA"
+    criticas:"ALTA / CRÍTICA",
+    villa1:"SEDE VILLA 1",
+    villa2:"SEDE VILLA 2",
+    sinasignar:"SIN ASIGNAR"
   }[kpi] || "DETALLE";
 }
-function openDetailModal(kpi){
-  const rows = rowsForKpi(kpi);
-  document.getElementById("modalTitle").textContent = kpiTitle(kpi);
-  document.getElementById("modalSummary").textContent = `${rows.length} registro(s) encontrados según los filtros activos.`;
-  document.getElementById("modalTbody").innerHTML = rows.map(r=>{
-    const spec=getSpec(r["Técnico Asignado"]);
-    return `<tr>
-      <td>${r.ID||""}</td><td>${r.Fecha||""}</td><td>${r.Hora||""}</td><td>${r.Sede||""}</td>
-      <td>${r["Pabellón / Área"]||""}</td><td>${r.Ambiente||""}</td>
-      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
-      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
-      <td>${r["Observación"]||""}</td><td>${r.Prioridad||""}</td>
-      <td><span class="badge ${statusClass(r.Estado)}">${r.Estado||""}</span></td>
-      <td><span class="badge spec-${spec}">${r["Técnico Asignado"]||""}</span></td>
-      <td>${r["Comentario Técnico"]||""}</td>
-    </tr>`;
-  }).join("") || `<tr><td colspan="12">Sin registros para mostrar.</td></tr>`;
-  document.getElementById("detailModal").classList.add("open");
-}
-function closeDetailModal(){
-  document.getElementById("detailModal").classList.remove("open");
-}
-document.addEventListener("keydown", function(e){
-  if(e.key==="Escape") closeDetailModal();
-});
-
-function handleKpiClick(event, kpi){
+function handleKpiClick(event,kpi){
   if(!kpi || kpi==="total"){
     selectedKpis.clear();
     render();
     openDetailModal("total");
     return;
-  } else if(event.ctrlKey || event.metaKey){
-    if(selectedKpis.has(kpi)) selectedKpis.delete(kpi);
-    else selectedKpis.add(kpi);
-  } else {
-    selectedKpis.clear();
-    selectedKpis.add(kpi);
+  }else if(event.ctrlKey || event.metaKey){
+    selectedKpis.has(kpi) ? selectedKpis.delete(kpi) : selectedKpis.add(kpi);
+  }else{
+    selectedKpis.clear(); selectedKpis.add(kpi);
   }
   render();
   openDetailModal(kpi);
 }
-
-function kpiMatch(r){
-  if(selectedKpis.size===0) return true;
-  let ok = false;
-  selectedKpis.forEach(k => {
-    if(k==="pendientes" && r.Estado==="Pendiente") ok = true;
-    if(k==="proceso" && ["En proceso","Programado","Parcial"].includes(r.Estado)) ok = true;
-    if(k==="atendidos" && ["Atendido","Cerrado"].includes(r.Estado)) ok = true;
-    if(k==="criticas" && (r.Prioridad==="Crítica" || r.Prioridad==="Alta")) ok = true;
-  });
-  return ok;
-}
-
-function filtered(){
-  const q=document.getElementById('search').value.toLowerCase();
-  const estado=document.getElementById('estadoSelect').value;
-  const sede=document.getElementById('sedeSelect').value;
-  return allData.filter(r => {
-    const hay = Object.values(r).join(" ").toLowerCase().includes(q);
-    return hay && (!estado || r.Estado===estado) && (!sede || r.Sede===sede) && (selectedRubros.size===0 || selectedRubros.has(inferRubro(r))) && (selectedTechs.size===0 || selectedTechs.has(r["Técnico Asignado"])) && (selectedDays.size===0 || selectedDays.has(r.Fecha)) && kpiMatch(r);
-  });
-}
-function countBy(arr, key){
+function countBy(arr,keyFn){
   const m={};
-  arr.forEach(r=>{ const v=r[key]||"S/R"; m[v]=(m[v]||0)+1; });
+  arr.forEach(r=>{
+    const v=typeof keyFn==="function" ? keyFn(r) : (r[keyFn]||"S/R");
+    m[v || "S/R"]=(m[v || "S/R"]||0)+1;
+  });
   return m;
 }
-function barList(id, obj, color){
-  const max=Math.max(1,...Object.values(obj));
-  document.getElementById(id).innerHTML = Object.entries(obj).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`
-    <div class="barrow"><div class="barlabel" title="${k}">${k}</div><div class="barbg"><div class="bar" style="width:${v/max*100}%;background:${color}"></div></div><div class="count">${v}</div></div>
-  `).join("") || "<span style='color:#777'>Sin datos</span>";
+function topEntries(obj,limit=8){
+  return Object.entries(obj).sort((a,b)=>b[1]-a[1]).slice(0,limit);
 }
+function pct(n,d){ return d ? Math.round((n/d)*1000)/10 : 0; }
+
 function render(){
   const rows=filtered();
   const total=rows.length;
@@ -740,31 +693,118 @@ function render(){
   const proceso=rows.filter(r=>["En proceso","Programado","Parcial"].includes(r.Estado)).length;
   const atendidos=rows.filter(r=>["Atendido","Cerrado"].includes(r.Estado)).length;
   const criticas=rows.filter(r=>r.Prioridad==="Crítica" || r.Prioridad==="Alta").length;
+  const villa1=rows.filter(r=>r.Sede==="Villa 1").length;
+  const villa2=rows.filter(r=>r.Sede==="Villa 2").length;
+  const sinAsignar=rows.filter(r=>r["Técnico Asignado"]==="Sin asignar").length;
+  const cumplimiento=pct(atendidos,total);
+
+  document.getElementById("sumTotal").textContent=total;
+  document.getElementById("sumAtendidos").textContent=atendidos;
+  document.getElementById("sumPendientes").textContent=pendientes;
+  document.getElementById("sumCriticas").textContent=criticas;
+  document.getElementById("sumProgress").style.width=cumplimiento+"%";
+  document.getElementById("sumProgressText").textContent=cumplimiento+"% de cumplimiento";
+
   document.getElementById('kpis').innerHTML = `
     <div class="kpi total ${selectedKpis.size===0?'active':''}" onclick="handleKpiClick(event,'total')"><div class="num">${total}</div><div class="lbl">Total registros</div></div>
     <div class="kpi pendiente ${selectedKpis.has('pendientes')?'active':''}" onclick="handleKpiClick(event,'pendientes')"><div class="num">${pendientes}</div><div class="lbl">Pendientes</div></div>
     <div class="kpi proceso ${selectedKpis.has('proceso')?'active':''}" onclick="handleKpiClick(event,'proceso')"><div class="num">${proceso}</div><div class="lbl">En proceso / programado</div></div>
     <div class="kpi atendido ${selectedKpis.has('atendidos')?'active':''}" onclick="handleKpiClick(event,'atendidos')"><div class="num">${atendidos}</div><div class="lbl">Atendidos / cerrados</div></div>
-    <div class="kpi critica ${selectedKpis.has('criticas')?'active':''}" onclick="handleKpiClick(event,'criticas')"><div class="num">${criticas}</div><div class="lbl">Alta / crítica</div></div>`;
+    <div class="kpi cumplimiento"><div class="num">${cumplimiento}%</div><div class="lbl">Cumplimiento</div></div>
+    <div class="kpi critica ${selectedKpis.has('criticas')?'active':''}" onclick="handleKpiClick(event,'criticas')"><div class="num">${criticas}</div><div class="lbl">Alta / crítica</div></div>
+    <div class="kpi villa ${selectedKpis.has('villa1')?'active':''}" onclick="handleKpiClick(event,'villa1')"><div class="num">${villa1}</div><div class="lbl">Villa 1</div></div>
+    <div class="kpi villa ${selectedKpis.has('villa2')?'active':''}" onclick="handleKpiClick(event,'villa2')"><div class="num">${villa2}</div><div class="lbl">Villa 2</div></div>
+    <div class="kpi asignar ${selectedKpis.has('sinasignar')?'active':''}" onclick="handleKpiClick(event,'sinasignar')"><div class="num">${sinAsignar}</div><div class="lbl">Sin asignar</div></div>`;
+
   document.getElementById('totalRows').textContent = `${total} registro(s) visibles`;
-  barList("byTech", countBy(rows,"Técnico Asignado"), "var(--vino)");
-  barList("byRubro", countBy(rows.map(r=>({...r, Rubro: inferRubro(r)})),"Rubro"), "var(--naranja)");
-  barList("bySede", countBy(rows,"Sede"), "var(--azul)");
-  document.getElementById('tbody').innerHTML = rows.map(r=>{
-    const spec=getSpec(r["Técnico Asignado"]);
-    return `<tr>
-      <td>${r.ID||""}</td><td>${r.Fecha||""}</td><td>${r.Hora||""}</td><td>${r.Sede||""}</td>
-      <td>${r["Pabellón / Área"]||""}</td><td>${r.Ambiente||""}</td>
-      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
-      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
-      <td>${r["Observación"]||""}</td><td>${r.Prioridad||""}</td>
-      <td><span class="badge ${statusClass(r.Estado)}">${r.Estado||""}</span></td>
-      <td><span class="badge spec-${spec}">${r["Técnico Asignado"]||""}</span></td>
-      <td>${r["Comentario Técnico"]||""}</td>
-    </tr>`;
-  }).join("");
+
+  renderDonut("Tech", countBy(rows,"Técnico Asignado"), "tech");
+  renderDonut("Rubro", countBy(rows,"Rubro"), "rubro");
+  renderDonut("Sede", countBy(rows,"Sede"), "sede");
+
+  renderBarList("topAreas", countBy(rows,"Pabellón / Área"), "area");
+  renderBarList("topAmbientes", countBy(rows,"Ambiente"), "ambiente");
+  renderBarList("topFechas", countBy(rows,"Fecha"), "fecha");
+
+  document.getElementById('tbody').innerHTML = rows.map(rowHtml).join("") || `<tr><td colspan="12">Sin registros para mostrar.</td></tr>`;
 }
-renderPills(); renderRubroDropdown(); render();
+function rowHtml(r){
+  const spec=getSpec(r["Técnico Asignado"]);
+  return `<tr>
+    <td>${esc(r.ID)}</td><td>${esc(r.Fecha)}</td><td>${esc(r.Hora)}</td><td>${esc(r.Sede)}</td>
+    <td>${esc(r["Pabellón / Área"])}</td><td>${esc(r.Ambiente)}</td>
+    <td><span class="badge ${rubroClass(r.Rubro)}">${esc(r.Rubro)}</span></td>
+    <td>${esc(r["Observación"])}</td><td>${esc(r.Prioridad)}</td>
+    <td><span class="badge ${statusClass(r.Estado)}">${esc(r.Estado)}</span></td>
+    <td><span class="badge spec-${spec}">${esc(r["Técnico Asignado"])}</span></td>
+    <td>${esc(r["Comentario Técnico"])}</td>
+  </tr>`;
+}
+function renderDonut(suffix, obj, type){
+  const entries=topEntries(obj,8);
+  const total=entries.reduce((a,e)=>a+e[1],0);
+  let start=0;
+  const parts=[];
+  entries.forEach(([k,v],i)=>{
+    const deg=total ? v/total*360 : 0;
+    parts.push(`${CHART_COLORS[i%CHART_COLORS.length]} ${start}deg ${start+deg}deg`);
+    start += deg;
+  });
+  document.getElementById("donut"+suffix).style.background = parts.length ? `conic-gradient(${parts.join(",")})` : "#E5E7EB";
+  document.getElementById("center"+suffix).textContent = total;
+  document.getElementById("legend"+suffix).innerHTML = entries.map(([k,v],i)=>`
+    <div class="legend-item" onclick="openGroupModal('${type}', decodeURIComponent('${encodeURIComponent(k)}'))">
+      <span class="dot" style="background:${CHART_COLORS[i%CHART_COLORS.length]}"></span>
+      <span class="legend-label" title="${esc(k)}">${esc(k)}</span>
+      <span class="legend-count">${v}</span>
+    </div>
+  `).join("") || "<span style='color:#777'>Sin datos</span>";
+}
+function renderBarList(id,obj,type){
+  const entries=topEntries(obj,10);
+  const max=Math.max(1,...entries.map(e=>e[1]));
+  document.getElementById(id).innerHTML = entries.map(([k,v])=>`
+    <div class="barrow" onclick="openGroupModal('${type}', decodeURIComponent('${encodeURIComponent(k)}'))">
+      <div class="barlabel" title="${esc(k)}">${esc(k)}</div>
+      <div class="barbg"><div class="bar" style="width:${v/max*100}%"></div></div>
+      <div class="count">${v}</div>
+    </div>
+  `).join("") || "<span style='color:#777'>Sin datos</span>";
+}
+function rowsForGroup(type,key){
+  const base=filteredBaseWithoutKpi().filter(kpiMatch);
+  if(type==="tech") return base.filter(r=>r["Técnico Asignado"]===key);
+  if(type==="rubro") return base.filter(r=>r.Rubro===key);
+  if(type==="sede") return base.filter(r=>r.Sede===key);
+  if(type==="area") return base.filter(r=>r["Pabellón / Área"]===key);
+  if(type==="ambiente") return base.filter(r=>r.Ambiente===key);
+  if(type==="fecha") return base.filter(r=>r.Fecha===key);
+  return base;
+}
+function openGroupModal(type,key){
+  const labels={tech:"TÉCNICO",rubro:"RUBRO",sede:"SEDE",area:"PABELLÓN / ÁREA",ambiente:"AMBIENTE",fecha:"FECHA"};
+  const rows=rowsForGroup(type,key);
+  openRowsModal(`${labels[type] || "DETALLE"}: ${key}`, rows);
+}
+function openDetailModal(kpi){
+  openRowsModal(kpiTitle(kpi), rowsForKpi(kpi));
+}
+function openRowsModal(title, rows){
+  document.getElementById("modalTitle").textContent = title;
+  const atendidos=rows.filter(r=>["Atendido","Cerrado"].includes(r.Estado)).length;
+  const pendientes=rows.filter(r=>r.Estado==="Pendiente").length;
+  document.getElementById("modalSummary").textContent = `${rows.length} registro(s) | Atendidos: ${atendidos} | Pendientes: ${pendientes}`;
+  document.getElementById("modalTbody").innerHTML = rows.map(rowHtml).join("") || `<tr><td colspan="12">Sin registros para mostrar.</td></tr>`;
+  document.getElementById("detailModal").classList.add("open");
+}
+function closeDetailModal(){
+  document.getElementById("detailModal").classList.remove("open");
+}
+document.addEventListener("keydown", e=>{ if(e.key==="Escape") closeDetailModal(); });
+
+renderPills();
+render();
+cargarExcelSharePoint();
 </script>
 </body>
 </html>
