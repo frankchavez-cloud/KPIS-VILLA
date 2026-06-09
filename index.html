@@ -7,29 +7,29 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 :root {
-  --vino:#5A0018;
-  --vino2:#7A0026;
-  --negro:#0D0D0D;
-  --gris:#F4F4F4;
-  --texto:#202020;
-  --turquesa:#39D6C6;
-  --naranja:#F28C28;
-  --azul:#2F80ED;
-  --verde:#27AE60;
-  --rojo:#E74C3C;
-  --amarillo:#F2C94C;
+  --vino:#243447;
+  --vino2:#2F4858;
+  --negro:#111827;
+  --gris:#F3F4F6;
+  --texto:#1F2937;
+  --turquesa:#2E7D7A;
+  --naranja:#B7791F;
+  --azul:#2563A6;
+  --verde:#2F855A;
+  --rojo:#B91C1C;
+  --amarillo:#D69E2E;
 }
 *{box-sizing:border-box}
 body {
   margin:0;
   font-family: "Segoe UI", Arial, sans-serif;
-  background: radial-gradient(circle at top left, #8C0030 0%, var(--vino) 25%, var(--negro) 70%);
+  background:#F3F4F6;
   color:#fff;
 }
 .login {
   position:fixed; inset:0; z-index:100;
   display:flex; align-items:center; justify-content:center;
-  background:linear-gradient(135deg,var(--negro),var(--vino));
+  background:linear-gradient(135deg,#111827,#243447);
 }
 .login-card {
   width:min(410px,90vw); background:#fff; color:var(--texto);
@@ -42,8 +42,8 @@ body {
 .login-card button{width:100%;padding:13px;border:0;border-radius:12px;background:var(--vino);color:#fff;font-weight:800;cursor:pointer}
 .header {
   padding:22px 28px;
-  background:linear-gradient(90deg,var(--negro),var(--vino),var(--vino2));
-  border-bottom:4px solid #B8904D;
+  background:linear-gradient(90deg,#111827,#243447,#2F4858);
+  border-bottom:4px solid #8A6F3D;
   display:flex; justify-content:space-between; gap:20px; align-items:center; flex-wrap:wrap;
 }
 .header h1{margin:0;font-size:1.5rem;letter-spacing:.4px;font-weight:900}
@@ -55,7 +55,7 @@ body {
   color:var(--texto);
   border-radius:18px;
   padding:16px;
-  box-shadow:0 10px 35px rgba(0,0,0,.25);
+  box-shadow:0 8px 24px rgba(17,24,39,.12);
   margin-bottom:16px;
 }
 .topbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
@@ -91,17 +91,17 @@ input[type=file]{padding:10px;background:#fff;border:1px dashed var(--vino);bord
 .btn.rubro-general{
 background:linear-gradient(135deg,#5A0018,#7A0026);
 color:#fff;
-box-shadow:0 6px 14px rgba(90,0,24,.35)
+box-shadow:0 6px 14px rgba(17,24,39,.22)
 }
 .btn.rubro-electrico{
-background:linear-gradient(135deg,#F7B733,#FC4A1A);
+background:linear-gradient(135deg,#6B7280,#4B5563);
 color:#111;
-box-shadow:0 6px 14px rgba(242,140,40,.35)
+box-shadow:0 6px 14px rgba(75,85,99,.22)
 }
 .btn.rubro-sanitario{
-background:linear-gradient(135deg,#56CCF2,#2F80ED);
+background:linear-gradient(135deg,#3B82A0,#2563A6);
 color:#fff;
-box-shadow:0 6px 14px rgba(47,128,237,.35)
+box-shadow:0 6px 14px rgba(37,99,166,.22)
 }
 .btn.rubro-cerrajeria{
 background:linear-gradient(135deg,#757F9A,#D7DDE8);
@@ -109,7 +109,7 @@ color:#111;
 box-shadow:0 6px 14px rgba(127,140,141,.35)
 }
 .btn.rubro-eventos{
-background:linear-gradient(135deg,#8E2DE2,#4A00E0);
+background:linear-gradient(135deg,#4B5563,#374151);
 color:#fff;
 box-shadow:0 6px 14px rgba(142,45,226,.35)
 }
@@ -119,7 +119,7 @@ box-shadow:0 6px 14px rgba(142,45,226,.35)
 .btn.rubro-cerrajeria.active,
 .btn.rubro-eventos.active{
 transform:translateY(-2px) scale(1.03);
-box-shadow:0 0 0 4px rgba(57,214,198,.45),0 12px 22px rgba(0,0,0,.24)
+box-shadow:0 0 0 3px rgba(46,125,122,.30),0 10px 18px rgba(17,24,39,.18)
 }
 .dropdown-panel{
 display:none;
@@ -161,11 +161,11 @@ font-weight:700
 font-size:2rem;
 font-weight:900
 }
-.card-electrico{background:linear-gradient(135deg,#F7B733,#FC4A1A)}
-.card-sanitario{background:linear-gradient(135deg,#56CCF2,#2F80ED)}
+.card-electrico{background:linear-gradient(135deg,#6B7280,#4B5563)}
+.card-sanitario{background:linear-gradient(135deg,#3B82A0,#2563A6)}
 .card-cerrajeria{background:linear-gradient(135deg,#757F9A,#4B5563)}
-.card-eventos{background:linear-gradient(135deg,#8E2DE2,#4A00E0)}
-.card-general{background:linear-gradient(135deg,#5A0018,#0D0D0D)}
+.card-eventos{background:linear-gradient(135deg,#4B5563,#374151)}
+.card-general{background:linear-gradient(135deg,#243447,#111827)}
 
 
 .btn.tech-electricista{border-color:var(--naranja);}
@@ -194,12 +194,12 @@ font-weight:900
 .kpi.active{box-shadow:0 0 0 4px rgba(57,214,198,.42),0 11px 24px rgba(0,0,0,.25);transform:translateY(-3px)}
 .kpi .num{font-size:2.15rem;font-weight:900;color:#fff;text-shadow:0 2px 5px rgba(0,0,0,.25)}
 .kpi .lbl{font-size:.74rem;color:rgba(255,255,255,.92);font-weight:800;text-transform:uppercase;line-height:1.2}
-.kpi.total{background:linear-gradient(135deg,#111,#444)}
-.kpi.pendiente{background:linear-gradient(135deg,#E74C3C,#922B21)}
-.kpi.proceso{background:linear-gradient(135deg,#F2C94C,#B77900);color:#211}
+.kpi.total{background:linear-gradient(135deg,#111827,#374151)}
+.kpi.pendiente{background:linear-gradient(135deg,#B91C1C,#7F1D1D)}
+.kpi.proceso{background:linear-gradient(135deg,#D69E2E,#975A16);color:#211}
 .kpi.proceso .num,.kpi.proceso .lbl{color:#241b00;text-shadow:none}
-.kpi.atendido{background:linear-gradient(135deg,#39D6C6,#007A73)}
-.kpi.critica{background:linear-gradient(135deg,#5A0018,#0D0D0D)}
+.kpi.atendido{background:linear-gradient(135deg,#2E7D7A,#285E61)}
+.kpi.critica{background:linear-gradient(135deg,#243447,#111827)}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.62);display:none;align-items:center;justify-content:center;z-index:9999;padding:18px}
 .modal-overlay.open{display:flex}
 .modal-box{width:min(1050px,96vw);max-height:86vh;overflow:auto;background:#fff;color:var(--texto);border-radius:20px;box-shadow:0 25px 70px rgba(0,0,0,.42)}
@@ -349,23 +349,21 @@ const TECHS = ["Juan Hernandez - Técnico Todista", "Angel Yataco - Técnico Ele
 const RUBROS = ["ELECTRICO","SANITARIO","CERRAJERIA"];
 async function cargarExcelSharePoint() {
 
-const urlExcel = "./CONSOLIDADO DASHBOARD VILLA.xlsx?v=" + Date.now();
+const urlExcel = "./CONSOLIDADO DASHBOARD VILLA.xlsx";
 
-const response = await fetch(urlExcel, { cache: "no-store" });
+const response = await fetch(urlExcel);
 
 console.log("STATUS:", response.status);
-if(!response.ok){ throw new Error("No se pudo cargar el Excel. Estado: " + response.status); }
 
 const arrayBuffer = await response.arrayBuffer();
 
-const workbook = XLSX.read(arrayBuffer, { type: "array", cellDates: true });
+const workbook = XLSX.read(arrayBuffer, { type: "array" });
 
 const hoja = workbook.Sheets[workbook.SheetNames[0]];
 
 const rows = XLSX.utils.sheet_to_json(hoja, { defval: "" });
 
 console.log("TOTAL FILAS EXCEL:", rows.length);
-console.log(rows);
 
 allData = rows.map(normalizeRecord).filter(r =>
     r["Observación"] || r["Pabellón / Área"]
@@ -422,9 +420,6 @@ function normalizeRecord(r){
 }
 function formatExcelDate(v){
   if(!v) return "";
-  if(v instanceof Date && !isNaN(v)) {
-    return String(v.getDate()).padStart(2,'0')+"/"+String(v.getMonth()+1).padStart(2,'0')+"/"+v.getFullYear();
-  }
   if(typeof v === "number") {
     const d = XLSX.SSF.parse_date_code(v);
     if(d) return String(d.d).padStart(2,'0')+"/"+String(d.m).padStart(2,'0')+"/"+d.y;
@@ -673,6 +668,7 @@ function openDetailModal(kpi){
       <td>${r.ID||""}</td><td>${r.Fecha||""}</td><td>${r.Hora||""}</td><td>${r.Sede||""}</td>
       <td>${r["Pabellón / Área"]||""}</td><td>${r.Ambiente||""}</td>
       <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
+      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
       <td>${r["Observación"]||""}</td><td>${r.Prioridad||""}</td>
       <td><span class="badge ${statusClass(r.Estado)}">${r.Estado||""}</span></td>
       <td><span class="badge spec-${spec}">${r["Técnico Asignado"]||""}</span></td>
@@ -759,6 +755,7 @@ function render(){
     return `<tr>
       <td>${r.ID||""}</td><td>${r.Fecha||""}</td><td>${r.Hora||""}</td><td>${r.Sede||""}</td>
       <td>${r["Pabellón / Área"]||""}</td><td>${r.Ambiente||""}</td>
+      <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
       <td><span class="badge ${rubroClass(inferRubro(r))}">${inferRubro(r)}</span></td>
       <td>${r["Observación"]||""}</td><td>${r.Prioridad||""}</td>
       <td><span class="badge ${statusClass(r.Estado)}">${r.Estado||""}</span></td>
