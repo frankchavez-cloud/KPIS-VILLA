@@ -87,6 +87,12 @@ body{
 .summary-card .value{font-size:2rem;font-weight:950;margin-top:5px}
 .summary-card .hint{font-size:.75rem;color:#6B7280;margin-top:3px}
 .summary-card.primary .hint{color:#E5E7EB}
+.summary-card.atendidas{background:linear-gradient(135deg,#0F766E,#2D9C95);color:#fff}
+.summary-card.atendidas .label,.summary-card.atendidas .hint{color:#EAFDFC}
+.summary-card.costos{background:linear-gradient(135deg,#B8904D,#8B6A2B);color:#fff;cursor:pointer}
+.summary-card.costos .label,.summary-card.costos .hint{color:#FFF8E7}
+.summary-card.equip{background:linear-gradient(135deg,#5A0018,#7A0026);color:#fff;cursor:pointer}
+.summary-card.equip .label,.summary-card.equip .hint{color:#FDECEF}
 .progress{
   height:12px;background:#E5E7EB;border-radius:999px;overflow:hidden;margin-top:10px;
 }
@@ -223,7 +229,7 @@ tr:hover{background:#FAFAFA}
 
 <header class="header">
   <div>
-    <h1>DASHBOARD GERENCIAL DE MANTENIMIENTO</h1>
+    <h1>CENTRO DE CONTROL OPERATIVO CAMPUS VILLA</h1>
     <div class="sub">Campus Villa | Mantenimiento y Servicios Generales</div>
   </div>
   <div class="brand">
@@ -242,20 +248,20 @@ tr:hover{background:#FAFAFA}
         <div class="progress"><div id="sumProgress"></div></div>
         <div class="hint" id="sumProgressText">0% de cumplimiento</div>
       </div>
-      <div class="summary-card">
-        <div class="label">Atendidas / Cerradas</div>
+      <div class="summary-card atendidas">
+        <div class="label">✅ Atendidas / Cerradas</div>
         <div class="value" id="sumAtendidos">0</div>
         <div class="hint">Registros cerrados operativamente</div>
       </div>
-      <div class="summary-card">
-        <div class="label">Pendientes</div>
-        <div class="value" id="sumPendientes">0</div>
-        <div class="hint">Backlog operativo actual</div>
+      <div class="summary-card costos" onclick="openCostosModal()">
+        <div class="label">💰 Costos Sanitarios</div>
+        <div class="value">5</div>
+        <div class="hint">OT Activas</div>
       </div>
-      <div class="summary-card">
-        <div class="label">Alta / Crítica</div>
-        <div class="value" id="sumCriticas">0</div>
-        <div class="hint">Prioridad de atención</div>
+      <div class="summary-card equip" onclick="alert('Módulo Equipamiento - En implementación')">
+        <div class="label">🔧 Equipamiento</div>
+        <div class="value">+</div>
+        <div class="hint">Módulo Operativo</div>
       </div>
     </div>
     <div class="error-box" id="loadError"></div>
@@ -272,7 +278,7 @@ tr:hover{background:#FAFAFA}
         <option value="">Todas las sedes</option><option>Villa 1</option><option>Villa 2</option>
       </select>
     </div>
-    <div class="footer-note"><b>Panel Ejecutivo:</b> Visualización gerencial de incidencias, mantenimiento y servicios generales. Fuente: Excel en GitHub.</div>
+    <div class="footer-note"><b>Centro de Control Operativo:</b> Gestión operativa y financiera de mantenimiento Campus Villa.</div>
   </section>
 
   <section class="panel controls">
@@ -293,7 +299,7 @@ tr:hover{background:#FAFAFA}
     <div class="grid-kpis" id="kpis"></div>
   </section>
 
-  <section class="panel">
+<section class="panel">
     <div class="cards">
       <div class="card">
         <div class="card-title">🍩 Incidencias por Técnico <small>click en leyenda</small></div>
@@ -365,6 +371,32 @@ tr:hover{background:#FAFAFA}
       </div>
     </div>
   </div>
+</div>
+
+
+
+<div class="modal-overlay" id="costosModal">
+ <div class="modal-box">
+  <div class="modal-head">
+   <h2>💰 Control de Costos Sanitarios - V12.7</h2>
+   <button class="modal-close" onclick="document.getElementById('costosModal').classList.remove('open')">Cerrar ✕</button>
+  </div>
+  <div class="modal-body">
+   <div class="grid-kpis">
+    <div class="kpi total"><div class="num" id="csTotal">0</div><div class="lbl">Gasto total</div></div>
+    <div class="kpi atendido"><div class="num" id="csAprobado">0</div><div class="lbl">Aprobado</div></div>
+    <div class="kpi proceso"><div class="num" id="csPendiente">0</div><div class="lbl">Por aprobar</div></div>
+    <div class="kpi villa"><div class="num" id="csOT">0</div><div class="lbl">OT Registradas</div></div>
+    <div class="kpi asignar"><div class="num" id="csProv">0</div><div class="lbl">Proveedores</div></div>
+   </div><br>
+   <div class="modal-table-wrap">
+    <table>
+     <thead><tr><th>OT</th><th>Requerimiento</th><th>Sede</th><th>Solicitud</th><th>OC</th><th>Monto</th><th>Estado</th><th>Proveedor</th></tr></thead>
+     <tbody id="csTabla"></tbody>
+    </table>
+   </div>
+  </div>
+ </div>
 </div>
 
 <script>
@@ -700,8 +732,12 @@ function render(){
 
   document.getElementById("sumTotal").textContent=total;
   document.getElementById("sumAtendidos").textContent=atendidos;
-  document.getElementById("sumPendientes").textContent=pendientes;
-  document.getElementById("sumCriticas").textContent=criticas;
+  if(document.getElementById("sumPendientes")){
+    document.getElementById("sumPendientes").textContent=pendientes;
+  }
+  if(document.getElementById("sumCriticas")){
+    document.getElementById("sumCriticas").textContent=criticas;
+  }
   document.getElementById("sumProgress").style.width=cumplimiento+"%";
   document.getElementById("sumProgressText").textContent=cumplimiento+"% de cumplimiento";
 
@@ -806,5 +842,43 @@ renderPills();
 render();
 cargarExcelSharePoint();
 </script>
+
+<script>
+let costosData=[];
+async function cargarCostosSanitarios(){
+ try{
+  const r=await fetch("./COSTOS SANITARIOS.xlsx?v="+Date.now(),{cache:"no-store"});
+  const ab=await r.arrayBuffer();
+  const wb=XLSX.read(ab,{type:"array",cellDates:true});
+  const data=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:""});
+  const h=data[0].map(x=>String(x).trim());
+  costosData=data.slice(1).filter(x=>x[1]).map(x=>Object.fromEntries(h.map((k,i)=>[k,x[i]])));
+ }catch(e){console.log(e)}
+}
+function money(v){return Number(String(v).replace(/[^\d.-]/g,"")||0)}
+function openCostosModal(){
+ document.getElementById('costosModal').classList.add('open');
+ let total=costosData.reduce((a,b)=>a+money(b.MONTO),0);
+ let apro=costosData.filter(x=>String(x.ESTADO).includes("APROBADO")).reduce((a,b)=>a+money(b.MONTO),0);
+ let prov=[...new Set(costosData.map(x=>x.PROVEEDOR).filter(Boolean))].length;
+ document.getElementById('csTotal').textContent='S/ '+(total/1000).toFixed(1)+'K';
+ document.getElementById('csAprobado').textContent='S/ '+(apro/1000).toFixed(1)+'K';
+ document.getElementById('csPendiente').textContent='S/ '+((total-apro)/1000).toFixed(1)+'K';
+ document.getElementById('csOT').textContent=costosData.length;
+ document.getElementById('csProv').textContent=prov;
+document.getElementById('csTabla').innerHTML=costosData.map(x=>`<tr>
+<td>${x.OT||''}</td>
+<td>${x["REQUERIMIENTO"]||x["DETALLES O REQUERIMIENTO"]||''}</td>
+<td>${x.SEDE||''}</td>
+<td>${x["SOLICITUD"]||x["N° SOLIC"]||''}</td>
+<td>${x["OC"]||x["N° O.C"]||''}</td>
+<td>${x.MONTO||''}</td>
+<td>${x.ESTADO||''}</td>
+<td>${x.PROVEEDOR||''}</td>
+</tr>`).join('');
+}
+cargarCostosSanitarios();
+</script>
+
 </body>
 </html>
